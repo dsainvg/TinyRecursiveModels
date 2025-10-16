@@ -1,5 +1,5 @@
 torch
-adam-atan2
+adamatan2-pytorch
 einops
 tqdm
 coolname

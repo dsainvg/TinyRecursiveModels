@@ -98,9 +98,9 @@ install_dependencies() {
         python3 -m pip install numpy scipy matplotlib tqdm wandb hydra-core omegaconf einops
     fi
 
-    # Install adam-atan2
-    print_status "Installing adam-atan2..."
-    python3 -m pip install --no-cache-dir --no-build-isolation adam-atan2
+    # Install adamatan2-pytorch
+    print_status "Installing adamatan2-pytorch..."
+    python3 -m pip install adamatan2-pytorch
 
     print_success "Dependencies installed successfully!"
 }
