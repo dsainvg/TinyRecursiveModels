@@ -178,7 +178,7 @@ train_maze_model() {
 
         if [ $GPU_COUNT -gt 1 ]; then
             print_status "Using distributed training with $GPU_COUNT GPUs..."
-            torchrun --nproc-per-node $GPU_COUNT --rdzv_backend=c10d --rdzv_endpoint=localhost:0 --nnodes=1 pretrain.py \
+            TORCH_COMPILE=0 torchrun --nproc-per-node $GPU_COUNT --rdzv_backend=c10d --rdzv_endpoint=localhost:0 --nnodes=1 pretrain.py \
                 arch=trm \
                 data_paths="[data/maze-30x30-hard-1k]" \
                 evaluators="[]" \
@@ -186,10 +186,10 @@ train_maze_model() {
                 lr=1e-4 puzzle_emb_lr=1e-4 weight_decay=1.0 puzzle_emb_weight_decay=1.0 \
                 arch.L_layers=2 \
                 arch.H_cycles=3 arch.L_cycles=4 \
-                +run_name=${RUN_NAME} ema=True
+                +run_name=${RUN_NAME} ema=True compile=False
         else
             print_status "Using single GPU training..."
-            python3 pretrain.py \
+            TORCH_COMPILE=0 python3 pretrain.py \
                 arch=trm \
                 data_paths="[data/maze-30x30-hard-1k]" \
                 evaluators="[]" \
@@ -197,11 +197,11 @@ train_maze_model() {
                 lr=1e-4 puzzle_emb_lr=1e-4 weight_decay=1.0 puzzle_emb_weight_decay=1.0 \
                 arch.L_layers=2 \
                 arch.H_cycles=3 arch.L_cycles=4 \
-                +run_name=${RUN_NAME} ema=True
+                +run_name=${RUN_NAME} ema=True compile=False
         fi
     else
         print_warning "No GPU detected, using CPU training (will be very slow)..."
-        python3 pretrain.py \
+        TORCH_COMPILE=0 python3 pretrain.py \
             arch=trm \
             data_paths="[data/maze-30x30-hard-1k]" \
             evaluators="[]" \
@@ -209,7 +209,7 @@ train_maze_model() {
             lr=1e-4 puzzle_emb_lr=1e-4 weight_decay=1.0 puzzle_emb_weight_decay=1.0 \
             arch.L_layers=2 \
             arch.H_cycles=3 arch.L_cycles=4 \
-            +run_name=${RUN_NAME} ema=True
+            +run_name=${RUN_NAME} ema=True compile=False
     fi
 
     print_success "Training completed!"
