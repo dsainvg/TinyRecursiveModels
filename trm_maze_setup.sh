@@ -129,9 +129,6 @@ install_dependencies() {
         python3 -m pip install numpy scipy matplotlib tqdm hydra-core omegaconf einops
     fi
 
-    # Install adamatan2-pytorch
-    print_status "Installing adamatan2-pytorch..."
-    python3 -m pip install adamatan2-pytorch
 
     print_success "All dependencies installed successfully!"
 }
